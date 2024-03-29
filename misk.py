@@ -157,8 +157,8 @@ async def delete_document(data):
 async def add_report(data):
     admins = await get_admins()
 
-    report = await insert_report(data)
-    report = await get_report(report["report_id"])
+    report_id = await insert_report(data)
+    report = await get_report(report_id)
     text = f"Номер: {report['document_number']}\n"
     text += f"Компания: {report['company']}\n"
     text += f"Объект: {report['facility']}\n"

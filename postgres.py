@@ -64,7 +64,7 @@ async def insert_report(data):
                                        (data["user_id"], data["document_name"], data["facility_id"],
                                         data["document_number"], data["amount"], data["date"],
                                         data["purpose"], data["type"], data["upd_type"]))
-    return report
+    return report["report_id"]
 
 
 async def update_report_file_id(report_id, file_id):

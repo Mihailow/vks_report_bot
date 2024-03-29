@@ -1,4 +1,4 @@
-# ReportingBot
+# Report bot
 
 ### ВКС
 
