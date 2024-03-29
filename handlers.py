@@ -332,6 +332,7 @@ async def but_back(callback_query: types.CallbackQuery, state: FSMContext):
     for report in reports:
         if report["accept"]:
             await update_report_received(report["report_id"])
+            await update_user_balance(report["user_id"], report["amount"])
 
     await delete_last_messages(callback_query.from_user.id)
     await delete_last_message(callback_query.from_user.id)

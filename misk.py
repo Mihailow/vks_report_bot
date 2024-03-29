@@ -182,5 +182,9 @@ async def add_report(data):
         text = f"ФИО: {report['creator']}\n" + text
         for admin in admins:
             await send_message(admin["tg_id"], text)
+
+    if report['type'] == "без чека" or report['upd_type'] == "ЭДО":
+        await update_user_balance(report["user_id"], report['amount'])
+
     await delete_document(data)
-    await delete_last_message(data["user_id"])
+    await delete_last_message(report["user_id"])

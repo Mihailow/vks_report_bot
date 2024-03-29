@@ -18,6 +18,11 @@ async def update_user_tg_id(tg_id, secret_key):
                             (tg_id, secret_key,))
 
 
+async def update_user_balance(user_id, balance):
+    await postgres_do_query("UPDATE report_users SET balance = balance - %s WHERE user_id = %s;",
+                            (balance, user_id,))
+
+
 async def get_user(tg_id):
     user = await postgres_select_one("SELECT * FROM report_users WHERE tg_id = %s AND status = true;",
                                      (tg_id,))
@@ -56,7 +61,6 @@ async def get_facilities(company_id):
 
 
 async def insert_report(data):
-    print(data)
     report = await postgres_select_one("INSERT INTO reports (user_id, document_name, facility_id, document_number, "
                                        "amount, date, purpose, type, upd_type) VALUES ((SELECT user_id FROM "
                                        "report_users WHERE tg_id = %s), %s, %s, %s, %s, %s, %s, %s, %s) "
@@ -83,7 +87,7 @@ async def update_report_received(report_id):
 
 
 async def get_report(report_id):
-    report = await postgres_select_one("SELECT reports.report_id, report_users.name AS creator, "
+    report = await postgres_select_one("SELECT reports.report_id, report_users.name AS creator, reports.user_id,"
                                        "reports.document_number, companies.name AS company, facilities.name AS "
                                        "facility, reports.amount, reports.date, reports.purpose, reports.type, "
                                        "reports.upd_type, reports.document_name FROM reports, report_users, companies, "
@@ -113,8 +117,8 @@ async def get_users_with_reports():
 
 
 async def get_registry_reports_for_admin(user_id):
-    reports = await postgres_select_all("SELECT report_id, document_number, date, amount, sent FROM reports"
-                                        " WHERE user_id = %s AND type IS DISTINCT FROM 'без чека' AND upd_type IS "
+    reports = await postgres_select_all("SELECT report_id, user_id, document_number, date, amount, sent FROM reports "
+                                        "WHERE user_id = %s AND type IS DISTINCT FROM 'без чека' AND upd_type IS "
                                         "DISTINCT FROM 'ЭДО' AND sent IS NOT NULL AND received IS NULL;",
                                         (user_id,))
     return reports
