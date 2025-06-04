@@ -1,3 +1,5 @@
+import asyncio
+
 from handlers import *
 from misk import *
 
@@ -13,6 +15,7 @@ if __name__ == "__main__":
     logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 
     scheduler.start()
-    # scheduler.add_job(read_messages, "interval", minutes=1)
+    scheduler.add_job(read_messages, "interval", minutes=1)
+    scheduler.add_job(change_buttons)
 
     executor.start_polling(dp, skip_updates=True)
