@@ -13,11 +13,8 @@ DB_NAME = "vks_main"
 DB_USER = "postgres"
 DB_PASS = "postgres"
 
-telegram_token = "6353026522:AAH6nwB6AgNQKQaUwT9PFvfI-8vA7NuYwlY"
+telegram_token = ""
 is_testing = True
-
-# telegram_token = '7150536489:AAGh1JMsV5Rh_Y5lgf4wUlSd9kQUFVVk23I'
-# is_testing = False
 
 bot = Bot(token=telegram_token)
 dp = Dispatcher(bot, storage=MemoryStorage())
